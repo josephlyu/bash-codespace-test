@@ -1,0 +1,340 @@
+(DE courese)
+
+alias myproj="cd /home/coder/proj && source /home/coder/proj/projenv.sh"
+________________________________________________________________________
+
+echo -e "Apple\nCarrot\nBanana\nApple" | sort | uniq -c | grep Apple
+ps -ef | grep python
+echo 1993 | rev
+________________________________________________________________________
+
+df : {pd.DataFrame} 
+    The input dataframe in which the correlated features are to be removed.
+thresh : {float} in range of (0,1), default = 0.85
+    The desired threshold of feature correlation.
+keep_features : {list}, default = None 
+    The list of features (columns) that we would like to keep.
+target_cols : {list}, default = None
+    The list of target variables that are excluded from correlation calculation.
+
+#!/usr/bin/bash
+read -p "File: " FILENAME
+FPATH=`readlink -f $FILENAME`
+echo "Full path:" $FPATH
+echo "fruit" > $FPATH
+echo "Write fruit into: " $FILENAME
+cat $FPATH
+tr fruit steak < $FPATH > steak.txt
+echo "Replacing fruit with steak and write into: steak.txt"  
+cat steak.txt
+________________________________________________________________________
+
+read -p 'Food? ' FOOD
+
+if [ "$FOOD" = "Apple" ]; then
+    echo "Apple is good"
+else 
+    echo "Eat $FOOD yourself"
+fi 
+________________________________________________________________________
+
+declare -a array=("apple" "pear" "cherry")
+
+for i in "${array[@]}"; do 
+    echo "This is $i"
+done
+________________________________________________________________________
+
+declare -A mealhash=([dinner]="steak" [lunch]="salad" [breakfast]="fruit")
+
+for key in "${!mealhash[@]}"; do
+    echo "For $key I like to eat: ${mealhash[$key]}"
+done
+________________________________________________________________________
+
+echo "How many lines?"
+read LINES   
+
+declare -a array=("apple" "pear" "cherry")
+
+COUNT=1
+while [ $COUNT -le $LINES ]; do 
+    rand=$[ $RANDOM % 3 ]
+    echo "$COUNT ${array[$rand]}" >> file.txt
+    ((COUNT++))
+done
+________________________________________________________________________
+
+for filename in file{4..9}; do
+    echo "Filename: $filename" > $filename.txt
+done 
+________________________________________________________________________
+
+# head tail
+shuf -n 10 file.txt > small-file.txt
+________________________________________________________________________
+
+grep -c -e apple -e pear file.txt 
+grep -v apple file.txt | grep -c pear
+________________________________________________________________________
+
+find . -name "*.sh"
+find . -perm /+x -not -path '*/\.*' -type f
+________________________________________________________________________
+
+add() {
+    num1=$1
+    num2=$2
+    res=$((num1+num2))
+    echo $res
+}
+
+output=$(add 5 9)
+add $output $output
+________________________________________________________________________
+
+phrase_generator() {
+    for ((i=0; i<$1; i++)); do
+        echo "$2"
+    done
+}
+
+while [[ $# -gt 1 ]]; do 
+    key="$1"
+
+    case $key in 
+        -c|--count)
+        COUNT="$2"
+        shift
+        ;;
+        -p|--phrase)
+        PHRASE="$2"
+        shift
+        ;;       
+    esac 
+    shift 
+done
+
+phrase_generator "${COUNT}" "${PHRASE}"
+
+$ ./cli.sh -c 5 -p 'hello world'
+________________________________________________________________________
+
+(Makefile)
+hello:
+	echo "Hello!"
+
+bye:
+	echo "Bye!"
+
+all: hello bye
+
+$ make all
+________________________________________________________________________
+
+(Dockerfile)
+FROM python:3.10.1-bullseye
+
+RUN pip install --upgrade pip\
+    && pip install pandas\
+    && pip install ipython
+
+$ docker build .
+$ docker image ls
+$ docker run -it xxxxxid bash
+________________________________________________________________________
+
+$ echo 1 2 3 4 | xargs echo
+________________________________________________________________________
+
+(metadata)
+$ sudo apt install mlocate
+$ sudo updatedb
+$ locate .zshrc
+
+(live)
+$ sudo find / -name ".zshrc"
+________________________________________________________________________
+
+$ touch /tmp/foo{0..10}.txt
+$ find /tmp/ -name "foo*" -type f -print
+$ find /tmp/ -name "foo*" -type f -print | xargs /bin/rm -f
+
+$ find -name "*.txt" | xargs grep Apple
+$ grep -R Apple .
+________________________________________________________________________
+
+$ mkdir -p bar/bam/biz
+$ ls -lR bar
+
+$ rsync -av foo/ newspot/foo/      (sync foo/ into newspot/foo/)
+
+$ chmod 400 foo.sh       (only owner has read access)
+
+$ zip -r archives/foo.zip foo/
+$ unzip foo.zip
+
+$ tar -zcvf archives/foo.tgz foo/
+$ tar -zxvf foo.tgz 
+
+$ chmod -R +x *.py
+________________________________________________________________________
+
+$ diff fruit*
+$ diff fruit1.txt fruit2.txt
+
+# review.txt each line: (....., POSITIVE); status: (POSITIVE,NEGATIVE,....)
+$ cat amazon_review.txt | rev | cut -d, -f1 | rev > status.txt 
+
+$ cut -b 1,2,3 foo.txt
+$ cut -b 1-2,5-8 foo.txt
+$ cut -b 1- foo.txt
+$ echo “Linux cut command is useful” | cut -d ' ' -f 2
+
+$ echo "hello" | tr a-z A-Z
+$ echo "MIXED" | sed 's/MIXED/NEGATIVE/'
+$ shuf -n 10 amazon_review.txt | sed 's/MIXED/NEGATIVE/' | awk 'NF < 10'
+
+$ echo 415-444-5599 | grep '\(([0-9]\{3\})\|[0-9]\{3\}\)[ -]\?[0-9]\{3\}[ -][0-9]\{4\}'
+$ echo 41-444-5599 | grep '\(([0-9]\{3\})\|[0-9]\{3\}\)[ -]\?[0-9]\{3\}[ -][0-9]\{4\}'
+$ cat phone-numbers.txt | grep '\(([0-9]\{3\})\|[0-9]\{3\}\)[ -]\?[0-9]\{3\}[ -][0-9]\{4\}'
+
+$ ls | grep -Eh 'phone|fruit'
+$ grep -EH 'Avanti|Samsung' amazon_review.txt | wc -l
+
+# top ten unique words
+$ cat oldmansea.txt | tr " " "\n" | sort | uniq -c | sort -gr | head -10
+________________________________________________________________________
+
+os.listdir('/').index('home')
+dict.get('phone', 'Unknown')
+set.add(4)
+________________________________________________________________________
+
+import sqlite3
+from faker import Faker
+
+# connection = sqlite3.connect(':memory:')
+connection = sqlite3.connect('sample.db')
+cursor = connection.cursor()
+
+cursor.execute('DROP TABLE IF EXISTS people')
+cursor.execute('CREATE TABLE people (id INTEGER PRIMARY KEY, name TEXT, surname TEXT)')
+connection.commit()
+
+fake = Faker()
+names = [fake.name().split() for i in range(100)]
+names = [n for n in names if len(n)==2]
+
+for n in names:
+    cursor.execute('INSERT INTO people(name, surname) VALUES(?, ?)', n)
+connection.commit()
+
+for i in cursor.execute('SELECT * FROM people LIMIT 10'):
+    print(i)
+
+# in terminal: sqlite3 sample.db -> SELECT * FROM people LIMIT 10;
+________________________________________________________________________
+
+from fastapi import FastAPI
+import uvicorn
+
+app = FastAPI()
+
+@app.get('/')
+async def root():
+    return {'message': 'Hello World'}
+
+@app.get('/add/{num1}/{num2}')
+async def add(num1: int, num2: int) -> int:
+    '''Add two numbers together.'''
+    return {'total': num1+num2}
+
+if __name__ == '__main__':
+    uvicorn.run(app, port=8080, host='0.0.0.0')
+
+$ curl http://0.0.0.0:8080
+$ curl http://0.0.0.0:8080/add/1/2
+Follow link: http://0.0.0.0:8080/docs
+________________________________________________________________________
+
+import click
+
+@click.command()
+@click.option('--count', '-c', default=1, help='Number of greetings.')
+@click.option('--name', '-n', prompt='Your name',
+              help='The person to greet.')
+def hello(count, name):
+    """Simple program that greets NAME for a total of COUNT times."""
+    for x in range(count):
+        click.echo(f"Hello {name}!")
+
+if __name__ == '__main__':
+    hello()
+
+$ python3 hello.py
+________________________________________________________________________
+
+(dflint/main.py):
+
+import click
+import pandas as pd
+
+@click.command()
+@click.argument('filename', type=click.Path(exists=True))
+@click.option('--verbose', '-v', is_flag=True, help='Verbose mode.')
+def main(filename, verbose):
+    '''Simple program that provides dataframe linting.'''
+    if verbose:
+        click.echo('In verbose mode!')
+    try:
+        df = pd.read_csv(filename)
+        if df.isnull().values.any():
+            click.echo('There are NULL values in the dataframe.')
+    except pd.errors.EmptyDataError:
+        click.echo(f'The {filename} was empty.')
+
+if __name__ == '__main__':
+    main()
+
+$ python3 dflint/main.py --help
+
+
+(setup.py):
+
+from setuptools import setup
+
+setup(
+    name='dflint',
+    packages=['dflint'],
+    version='0.0.1',
+    entry_points='''
+    [console_scripts]
+    dflint=dflint.main:main
+    ''',
+    install_requires=[]
+)
+
+$ python3 setup.py develop
+$ dflint --help
+$ which dflint
+
+$ touch foo.csv
+$ dflint foo.csv -v
+
+$ python3 setup.py build
+
+$ python3 setup.py sdist
+$ pip install dist/dflint-0.0.1.tar.gz
+$ dflint --help
+________________________________________________________________________
+
+CI/CD formatting, linting, testing, publishing
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
+________________________________________________________________________
