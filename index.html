@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ZingSoft Demo</title>
+    <script
+      nonce="undefined"
+      src="https://cdn.zingchart.com/zingchart.min.js"
+    ></script>
+    <script nonce="undefined">
+      zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+    </script>
+
+    <script
+      nonce="undefined"
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #myChart {
+        height: 100%;
+        width: 100%;
+        min-height: 150px;
+      }
+
+      .zc-ref {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="myChart"></div>
+    <script>
+      // ZC.LICENSE = [
+      //   "569d52cefae586f634c54f86dc99e6a9",
+      //   "b55b025e438fa8a98e32482b5f768ff5",
+      // ];
+      let chartData = [
+        { type: 'node', id: 'n1', cls: 'fam', text: ' ', dataFullName: '' },
+        { type: 'node', id: 'Ned Stark', text: 'Ned', dataFullName: 'Ned Stark', style: { 'background-fit': 'xy', backgroundImage: url('avatars/one_ring.png') } },
+        { type: 'node', id: 'Brandon Stark', text: 'Brandon', dataFullName: 'Brandon Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/u9hoEJg.png' } },
+        { type: 'node', id: 'Benjen Stark', text: 'Benjen', dataFullName: 'Benjen Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/nIYFwTa.png' } },
+        { type: 'node', id: 'Lyanna Stark', text: 'Lyanna', dataFullName: 'Lyanna Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/x51Mx4U.png' } },
+        { type: 'node', id: 'Catelyn Stark', text: 'Catelyn', dataFullName: 'Catelyn Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/4zN7Y24.png' } },
+        { type: 'node', id: 'Bran Stark', text: 'Bran', dataFullName: 'Bran Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/2XEVyxr.png' } },
+        { type: 'node', id: 'Rickon Stark', text: 'Rickon', dataFullName: 'Rickon Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/WYgOq7v.png' } },
+        { type: 'node', id: 'Robb Stark', text: 'Robb', dataFullName: 'Robb Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/mfavdJs.png' } },
+        { type: 'node', id: 'Sansa Stark', text: 'Sansa', dataFullName: 'Sansa Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/MsIjHMU.png' } },
+        { type: 'node', id: 'Arya Stark', text: 'Arya', dataFullName: 'Arya Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/ae7VysW.png' } },
+
+        { type: 'node', id: 'n2', cls: 'fam', text: ' ', dataFullName: '' },
+        { type: 'node', id: 'Lyarra Stark', text: 'Lyarra', dataFullName: 'Lyarra Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/u9hoEJg.png' } },
+        { type: 'node', id: 'Rickard Stark', text: 'Rickard', dataFullName: 'Rickard Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/fnDOYLn.png' } },
+
+        { type: 'node', id: 'n3', cls: 'fam', text: ' ', dataFullName: '' },
+        { type: 'node', id: 'Rhaegar Targaryen', text: 'Rhaegar Targaryen', dataFullName: 'Rhaegar Targaryen', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/xUNu69z.png' } },
+        { type: 'node', id: 'Jon Snow', text: 'Jon Snow', dataFullName: 'Jon Snow', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/ePIDAeF.png' } },
+
+        { type: 'node', id: 'n4', cls: 'fam', text: ' ', dataFullName: '' },
+        { type: 'node', id: 'Talisa Stark', text: 'Talisa', dataFullName: 'Talisa Stark', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/G8UYTPZ.png' } },
+
+        { type: 'node', id: 'n5', cls: 'fam', text: ' ', dataFullName: '' },
+        { type: 'node', id: 'Ramsay Bolton', text: 'Ramsay Bolton', dataFullName: 'Ramsay Bolton', style: { 'background-fit': 'xy', backgroundImage: 'https://i.imgur.com/W0zBrVu.png' } },
+
+        { type: 'link', source: 'n1', target: 'Ned Stark' },
+        { type: 'link', source: 'n1', target: 'Catelyn Stark' },
+        { type: 'link', source: 'n1', target: 'Robb Stark' },
+        { type: 'link', source: 'n1', target: 'Bran Stark' },
+        { type: 'link', source: 'n1', target: 'Rickon Stark' },
+        { type: 'link', source: 'n1', target: 'Sansa Stark' },
+        { type: 'link', source: 'n1', target: 'Arya Stark' },
+
+        { type: 'link', source: 'n2', target: 'Ned Stark' },
+        { type: 'link', source: 'n2', target: 'Brandon Stark' },
+        { type: 'link', source: 'n2', target: 'Benjen Stark' },
+        { type: 'link', source: 'n2', target: 'Lyanna Stark' },
+        { type: 'link', source: 'n2', target: 'Lyarra Stark' },
+        { type: 'link', source: 'n2', target: 'Rickard Stark' },
+
+        { type: 'link', source: 'n3', target: 'Lyanna Stark' },
+        { type: 'link', source: 'n3', target: 'Rhaegar Targaryen' },
+        { type: 'link', source: 'n3', target: 'Jon Snow' },
+
+        { type: 'link', source: 'n4', target: 'Robb Stark' },
+        { type: 'link', source: 'n4', target: 'Talisa Stark' },
+
+        { type: 'link', source: 'n5', target: 'Sansa Stark' },
+        { type: 'link', source: 'n5', target: 'Ramsay Bolton' },
+      ];
+
+      let chartConfig = {
+        type: 'tree',
+        plot: {},
+        plotarea: {
+          margin: 0,
+          // backgroundImage: 'https://i.imgur.com/tvrJh89.jpg',
+          // backgroundImage: "https://pubs.shangjielyu.com/og_img.png",
+          // backgroundImage: "background.jpg",
+          backgroundColor: 'orange',
+
+
+          backgroundFit: 'xy',
+          backgroundRepeat: false,
+        },
+        options: {
+          aspect: 'graph',
+          springLength: 75,
+          attractionConstant: 0.8,
+          repulsionConstant: 4000,
+          repulsionDistanceFactor: 20,
+          node: {
+            size: 24,
+            borderWidth: 3,
+            borderColor: 'white',
+            backgroundColor: '#fff',
+            backgroundRepeat: 'no-repeat',
+            backgroundScale: 0.75,
+            label: {
+              color: 'white',
+              fontWeight: 'bold',
+              offsetY: 35
+            },
+            tooltip: {
+              text: '%data-full-name',
+              visible: true,
+            }
+          },
+          'node[cls-fam]': {
+            size: 12,
+            borderWidth: 2,
+            borderColor: '#000',
+            backgroundColor: 'white',
+            label: {
+              visible: false
+            }
+          },
+          link: {
+            lineWidth: 3,
+            lineColor: 'white'
+          }
+        },
+        series: chartData
+      };
+
+      zingchart.render({
+        id: "myChart",
+        width: "100%",
+        height: "100%",
+        output: "canvas",
+        data: chartConfig,
+      });
+    </script>
+  </body>
+</html>
